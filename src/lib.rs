@@ -83,13 +83,9 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
     }
 
     let mut arr_chk = vec![0u8; width * height];
-    // for i in (0..buffer.len()).step_by(4) {
-    //     let avg = (buffer[i] as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
-    //     arr_chk[i] = if avg < 1 { 1 } else { 0 };
-    // }
-    for (i, &value) in buffer.iter().enumerate().step_by(4) {
-        let avg = (value as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
-        arr_chk[i] = if avg < 1 { 1 } else { 0 };
+    for i in (0..buffer.len()).step_by(4) {
+        let avg = (buffer[i] as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
+        arr_chk[i] = 1;
     }
 
     DataPackage::new(buffer, arr_chk)
