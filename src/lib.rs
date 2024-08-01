@@ -28,7 +28,7 @@ impl DataPackage {
     }
 }
 #[wasm_bindgen]
-pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) -> DataPackage {
+pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) -> Vec<u8> {
     let width = canvas_width as usize;
     let height = canvas_height as usize;
     // グレースケールに変換
@@ -83,16 +83,12 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
     }
 
     let mut arr_chk = vec![0u8; width * height];
-    // for i in (0..buffer.len()).step_by(4) {
-    //     let avg = (buffer[i] as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
-    //     arr_chk[i] = if avg < 1 { 1 } else { 0 };
-    // }
-    for (i, &value) in buffer.iter().enumerate().step_by(4) {
-        let avg = (value as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
+    for i in (0..buffer.len()).step_by(4) {
+        let avg = (buffer[i] as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
         arr_chk[i] = if avg < 1 { 1 } else { 0 };
     }
-
-    DataPackage::new(buffer, arr_chk)
+    arr_chk
+    //DataPackage::new(buffer, arr_chk)
 }
 
 fn int_sqrt(n: u32) -> u32 {
