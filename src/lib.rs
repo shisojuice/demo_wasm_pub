@@ -62,6 +62,8 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
         }
     }
 
+    let mut count = 0;
+    let mut arr_chk = vec![0u8; width * height];
     // エッジを黒、それ以外を白に設定
     for y in 0..height {
         for x in 0..width {
@@ -72,20 +74,17 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
                 buffer[index + 1] = 0;
                 buffer[index + 2] = 0;
                 buffer[index + 3] = 255;
+                arr_chk[count] = 1;
             } else {
                 // エッジ以外
                 buffer[index] = 255;
                 buffer[index + 1] = 255;
                 buffer[index + 2] = 255;
                 buffer[index + 3] = 255;
+                arr_chk[count] = 0;
             }
+            count += 1;
         }
-    }
-
-    let mut arr_chk = vec![0u8; width * height];
-    for i in (0..buffer.len()).step_by(4) {
-        let avg = (buffer[i] as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
-        arr_chk[i] = avg as u8;//if avg < 1 { 1 } else { 0 };
     }
 
     DataPackage::new(Vec::from(buffer.as_slice()), arr_chk)
