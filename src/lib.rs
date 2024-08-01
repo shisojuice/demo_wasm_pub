@@ -5,13 +5,30 @@ use wasm_bindgen::prelude::*;
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
-pub struct MyData {
-    pub bytes: Vec<u8>,
-    pub text: String,
+pub struct DataPackage {
+    bytes: Vec<u8>,
+    message: String,
 }
 
 #[wasm_bindgen]
-pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) -> MyData {
+impl DataPackage {
+    #[wasm_bindgen(constructor)]
+    pub fn new(bytes: Vec<u8>, message: String) -> Self {
+        DataPackage { bytes, message }
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn bytes(&self) -> Vec<u8> {
+        self.bytes.clone()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn message(&self) -> String {
+        self.message.clone()
+    }
+}
+#[wasm_bindgen]
+pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) -> DataPackage {
     let width = canvas_width as usize;
     let height = canvas_height as usize;
     // グレースケールに変換
@@ -64,8 +81,7 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
             }
         }
     }
-
-    MyData { bytes:buffer, text:"asdf".parse().unwrap() }
+    DataPackage::new(buffer,"aa".parse().unwrap())
 }
 
 fn int_sqrt(n: u32) -> u32 {
