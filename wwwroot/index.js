@@ -41,7 +41,7 @@ async function run() {
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const ret = pixel_filter(new Uint8Array(imageData.data.buffer),canvas.width,canvas.height);
             // for canvas
-            //ctx.putImageData(new ImageData(new Uint8ClampedArray(ret.bytes.buffer), canvas.width, canvas.height), 0, 0);
+            ctx.putImageData(new ImageData(new Uint8ClampedArray(ret.bytes.buffer), canvas.width, canvas.height), 0, 0);
             // for chk
             console.log(ret);
             requestAnimationFrame(draw);

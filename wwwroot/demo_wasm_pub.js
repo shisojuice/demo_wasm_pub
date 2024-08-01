@@ -44,22 +44,13 @@ function getArrayU8FromWasm0(ptr, len) {
 * @param {Uint8Array} buffer
 * @param {number} canvas_width
 * @param {number} canvas_height
-* @returns {Uint8Array}
+* @returns {DataPackage}
 */
 export function pixel_filter(buffer, canvas_width, canvas_height) {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passArray8ToWasm0(buffer, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        wasm.pixel_filter(retptr, ptr0, len0, canvas_width, canvas_height);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var v2 = getArrayU8FromWasm0(r0, r1).slice();
-        wasm.__wbindgen_free(r0, r1 * 1, 1);
-        return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
+    const ptr0 = passArray8ToWasm0(buffer, wasm.__wbindgen_malloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.pixel_filter(ptr0, len0, canvas_width, canvas_height);
+    return DataPackage.__wrap(ret);
 }
 
 const DataPackageFinalization = (typeof FinalizationRegistry === 'undefined')
@@ -68,6 +59,14 @@ const DataPackageFinalization = (typeof FinalizationRegistry === 'undefined')
 /**
 */
 export class DataPackage {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(DataPackage.prototype);
+        obj.__wbg_ptr = ptr;
+        DataPackageFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
 
     __destroy_into_raw() {
         const ptr = this.__wbg_ptr;
