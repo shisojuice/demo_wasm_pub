@@ -88,7 +88,7 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
         arr_chk[i] = avg as u8;//if avg < 1 { 1 } else { 0 };
     }
 
-    DataPackage::new(buffer,arr_chk)
+    DataPackage::new(Vec::from(buffer.as_slice()), arr_chk)
 }
 
 fn int_sqrt(n: u32) -> u32 {
