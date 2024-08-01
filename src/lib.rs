@@ -7,14 +7,14 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 #[wasm_bindgen]
 pub struct DataPackage {
     bytes: Vec<u8>,
-    message: String,
+    chks: Vec<u8>,
 }
 
 #[wasm_bindgen]
 impl DataPackage {
     #[wasm_bindgen(constructor)]
-    pub fn new(bytes: Vec<u8>, message: String) -> Self {
-        DataPackage { bytes, message }
+    pub fn new(bytes: Vec<u8>, chks: Vec<u8>) -> Self {
+        DataPackage { bytes, chks }
     }
 
     #[wasm_bindgen(getter)]
@@ -23,8 +23,8 @@ impl DataPackage {
     }
 
     #[wasm_bindgen(getter)]
-    pub fn message(&self) -> String {
-        self.message.clone()
+    pub fn chks(&self) -> Vec<u8> {
+        self.chks.clone()
     }
 }
 #[wasm_bindgen]
@@ -81,7 +81,14 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
             }
         }
     }
-    DataPackage::new(buffer,"aa".parse().unwrap())
+
+    let mut arr_chk = vec![0u8; width * height];
+    for i in (0..buffer.len()).step_by(4) {
+        let avg = (buffer[i] as u16 + buffer[i + 1] as u16 + buffer[i + 2] as u16) / 3;
+        arr_chk[i] = if avg < 1 { 1 } else { 0 };
+    }
+
+    DataPackage::new(buffer,arr_chk)
 }
 
 fn int_sqrt(n: u32) -> u32 {

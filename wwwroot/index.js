@@ -43,7 +43,7 @@ async function run() {
             // for canvas
             ctx.putImageData(new ImageData(new Uint8ClampedArray(ret.bytes.buffer), canvas.width, canvas.height), 0, 0);
             // for chk
-
+            console.log(ret);
             requestAnimationFrame(draw);
         }
         draw();
