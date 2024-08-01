@@ -21,17 +21,17 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: false })
     .catch(err => {
         console.error('エラー:', err);
     });
-window.addEventListener("load",(event)=>{
-    for(let i=0;i< 54;i++){
-        for(let j=0;j< 40;j++){
-            const chk = document.createElement("input");
-            chk.type = "checkbox";
-            chk.dataset.row=i;
-            chk.dataset.column=j;
-            document.getElementById("container").appendChild(chk);
-        }
-    }
-});
+// window.addEventListener("load",(event)=>{
+//     for(let i=0;i< 54;i++){
+//         for(let j=0;j< 40;j++){
+//             const chk = document.createElement("input");
+//             chk.type = "checkbox";
+//             chk.dataset.row=i;
+//             chk.dataset.column=j;
+//
+//         }
+//     }
+// });
 async function run() {
     await init();
     document.getElementById("pixel_filter").addEventListener("click", () => {
@@ -43,7 +43,15 @@ async function run() {
             // for canvas
             ctx.putImageData(new ImageData(new Uint8ClampedArray(ret.bytes.buffer), canvas.width, canvas.height), 0, 0);
             // for chk
-            console.log(ret);
+            for(let i=0;i< ret.chks.length;i++){
+            {
+                document.getElementById("container").innerText= ret.chks[i];
+                if(i===639)
+                {
+                    document.getElementById("container").innerText="\r\n";
+                }
+            }
+            }
             requestAnimationFrame(draw);
         }
         draw();
