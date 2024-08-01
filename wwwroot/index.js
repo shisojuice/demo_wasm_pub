@@ -23,8 +23,8 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: false })
         console.error('エラー:', err);
     });
 window.addEventListener("load",(event)=>{
-    for(let i=0;i< video.videoWidth /size;i++){
-        for(let j=0;j< video.videoHeight /size;j++){
+    for(let i=0;i< canvas.width /size;i++){
+        for(let j=0;j< canvas.height /size;j++){
             const chk = document.createElement("input");
             chk.type = "checkbox";
             chk.dataset.row=i;

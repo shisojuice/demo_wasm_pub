@@ -9,7 +9,6 @@ body {
   display: grid;
   grid-template-columns: repeat(32, 1fr); 
   grid-auto-flow: row; 
-  gap: 1px;
 }
 #canvas {
   width: 512px;
