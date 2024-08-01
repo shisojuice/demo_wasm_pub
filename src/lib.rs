@@ -8,13 +8,14 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub struct DataPackage {
     bytes: Vec<u8>,
     chks: Vec<u8>,
+    text:String,
 }
 
 #[wasm_bindgen]
 impl DataPackage {
     #[wasm_bindgen(constructor)]
-    pub fn new(bytes: Vec<u8>, chks: Vec<u8>) -> Self {
-        DataPackage { bytes, chks }
+    pub fn new(bytes: Vec<u8>, chks: Vec<u8>,text:String) -> Self {
+        DataPackage { bytes, chks,text }
     }
 
     #[wasm_bindgen(getter)]
@@ -25,6 +26,11 @@ impl DataPackage {
     #[wasm_bindgen(getter)]
     pub fn chks(&self) -> Vec<u8> {
         self.chks.clone()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn text(&self) -> String {
+        self.text.clone()
     }
 }
 #[wasm_bindgen]
@@ -62,6 +68,7 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
         }
     }
 
+    let mut text = String::new();
     let mut count = 0;
     let mut arr_chk = vec![0u8; width * height];
     // エッジを黒、それ以外を白に設定
@@ -75,6 +82,7 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
                 buffer[index + 2] = 0;
                 buffer[index + 3] = 255;
                 arr_chk[count] = 1;
+                text.push_str("@@");
             } else {
                 // エッジ以外
                 buffer[index] = 255;
@@ -82,12 +90,14 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
                 buffer[index + 2] = 255;
                 buffer[index + 3] = 255;
                 arr_chk[count] = 0;
+                text.push_str("__");
             }
             count += 1;
         }
+        text.push_str("\r\n");
     }
 
-    DataPackage::new(Vec::from(buffer.as_slice()), arr_chk)
+    DataPackage::new(Vec::from(buffer.as_slice()), arr_chk,text)
 }
 
 fn int_sqrt(n: u32) -> u32 {
