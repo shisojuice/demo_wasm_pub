@@ -82,7 +82,7 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
                 buffer[index + 2] = 0;
                 buffer[index + 3] = 255;
                 arr_chk[count] = 1;
-                text.push_str("@@");
+                text.push_str("@");
             } else {
                 // エッジ以外
                 buffer[index] = 255;
@@ -90,7 +90,7 @@ pub fn pixel_filter(mut buffer: Vec<u8>,canvas_width :u32,canvas_height :u32) ->
                 buffer[index + 2] = 255;
                 buffer[index + 3] = 255;
                 arr_chk[count] = 0;
-                text.push_str("__");
+                text.push_str("_");
             }
             count += 1;
         }
