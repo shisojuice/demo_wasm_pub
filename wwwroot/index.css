@@ -9,6 +9,7 @@ body {
   display: grid;
   grid-template-columns: repeat(54, 1fr);
   grid-auto-flow: row;
+  font-size: 5px;
 }
 input[type=checkbox]{
   width:12px;
