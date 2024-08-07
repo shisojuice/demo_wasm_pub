@@ -43,6 +43,7 @@ async function run() {
             // for canvas
             ctx.putImageData(new ImageData(new Uint8ClampedArray(ret.bytes.buffer), canvas.width, canvas.height), 0, 0);
             // for chk
+            setInterval(()=>{console.log(ret.text);},2000)
             // document.getElementById("container").innerText= ret.text;
             requestAnimationFrame(draw);
         }
